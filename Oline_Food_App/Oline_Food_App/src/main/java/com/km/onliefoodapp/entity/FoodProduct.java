@@ -1,15 +1,12 @@
 package com.km.onliefoodapp.entity;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,6 +25,6 @@ public class FoodProduct {
 	private int avalibility;
 	@Enumerated(EnumType.STRING)
 	private Type type;
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<FoodItems> items;
+	@Column(length = 3000)
+	private String description;
 }

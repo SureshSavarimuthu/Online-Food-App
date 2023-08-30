@@ -75,11 +75,11 @@ public class FoodProductService {
 		if(str!=null)
 		{
 			ResponseStructure<String> responseStructure=new ResponseStructure<>();
-			responseStructure.setStatus(HttpStatus.OK.value());
+			responseStructure.setStatus(HttpStatus.NO_CONTENT.value());
 			responseStructure.setMessage("Data Save Sucessfull");		
 			responseStructure.setData(str);
 			
-			ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
+			ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NO_CONTENT);
 			return responseEntity;
 		}
 		else 

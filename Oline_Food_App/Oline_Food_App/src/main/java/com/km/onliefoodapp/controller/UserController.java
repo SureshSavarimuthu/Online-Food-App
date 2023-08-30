@@ -2,6 +2,8 @@ package com.km.onliefoodapp.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,14 @@ import com.km.onliefoodapp.util.ResponseStructure;
 @RestController
 public class UserController {
 
+
+//	  public static void main(String[] args) {
+//	    logger.info("Entering application.");
+//
+//	    Foo foo = new Foo();
+//	    foo.doIt();
+//	    logger.info("Exiting application.");
+	
 	@Autowired
 	UserService userService;
 
@@ -33,6 +43,7 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<User>> findById(@RequestParam long userId)
 	{
 		return userService.findById(userId);
+		
 	}
 	
 	@GetMapping("findByEmail")

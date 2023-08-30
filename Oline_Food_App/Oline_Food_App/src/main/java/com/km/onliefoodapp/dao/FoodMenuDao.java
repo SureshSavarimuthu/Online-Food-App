@@ -2,6 +2,7 @@ package com.km.onliefoodapp.dao;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,14 +18,15 @@ public class FoodMenuDao {
 
 	public FoodMenu saveFoodMenu(FoodMenu foodMenu)
 	{
+		
 		return foodMenuRepository.save(foodMenu);
 
 	}
 	
-	public FoodMenu findFoodMenuById(long foodMenuId)
+	public Optional<FoodMenu> findFoodMenuById(long foodMenuId)
 	{
-		
-		return foodMenuRepository.findById(foodMenuId).get();
+		Optional<FoodMenu> opt=	foodMenuRepository.findById(foodMenuId);
+		return opt;
 	}
 	
 	public List<FoodMenu> findAllFoodMenu()
@@ -37,5 +39,12 @@ public class FoodMenuDao {
 	{
 		foodMenuRepository.deleteById(foodMenuById);
 		return "Data removed sucessfully";
+	}
+	
+	public FoodMenu updateFoodMenu(FoodMenu foodMenu)
+	{
+		FoodMenu menu=foodMenuRepository.save(foodMenu);
+		
+		return menu;
 	}
 }

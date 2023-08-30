@@ -1,6 +1,7 @@
 package com.km.onliefoodapp.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,20 +26,23 @@ public class UserDao {
 		return userRepository.save(user);
 	}
 
-	public User findById(long userId)
+	public Optional<User> findById(long userId)
 	{
-		return userRepository.findById(userId).get();
+	Optional<User> u=userRepository.findById(userId);
+		return u;
 	}
 	
 	
-	public User findByEmail(String email)
+	public Optional<User> findByEmail(String email)
 	{
-		return userRepository.findByEmail(email);
+		Optional<User> u=Optional.of(userRepository.findByEmail(email));
+		return u;
 	}
 
-	public User findByNumber(long phoneNumber)
+	public Optional<User> findByNumber(long phoneNumber)
 	{
-		return userRepository.findByPhoneNumber(phoneNumber);
+		Optional<User> u=	Optional.of(userRepository.findByPhoneNumber(phoneNumber));
+		return u;
 	}
 	
 	public List<User> findAllUser()
