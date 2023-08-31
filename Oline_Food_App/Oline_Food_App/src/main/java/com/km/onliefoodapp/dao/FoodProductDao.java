@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.km.onliefoodapp.entity.FoodProduct;
+import com.km.onliefoodapp.entity.Type;
 import com.km.onliefoodapp.repository.FoodProductRepository;
 
 
@@ -34,6 +35,17 @@ public class FoodProductDao {
 	{
 		foodProductRepository.deleteById(id);
 		return "FoodProduct removed Sucessfully";
+	}
+	
+	public List<FoodProduct> findByType(Type type)
+	{
+		List<FoodProduct> foodProducts=	(List<FoodProduct>) foodProductRepository.findAllByType(type);
+		return foodProducts;
+	}
+	
+	public FoodProduct updateFoodProduct(FoodProduct foodProduct)
+	{
+		return foodProductRepository.save(foodProduct);
 	}
 	
 }

@@ -22,9 +22,9 @@ public class FoodOrderController {
 	FoodOrderService foodOrderService;
 	
 	@PostMapping("saveFoodOrder")
-	public ResponseEntity<ResponseStructure<FoodOrders>> saveFoodOrder(@RequestBody FoodOrders foodOrders)
+	public ResponseEntity<ResponseStructure<FoodOrders>> saveFoodOrder(@RequestBody FoodOrders foodOrders,@RequestParam long customerId)
 	{
-		return foodOrderService.saveFoodOrder(foodOrders);
+		return foodOrderService.saveFoodOrder(foodOrders,customerId);
 	}
 	
 	@GetMapping("findFoodOrderByID")
@@ -38,6 +38,9 @@ public class FoodOrderController {
 	{
 		return foodOrderService.findAllFoodOrders();
 	}
+	
+	
+	
 	
 	@DeleteMapping("deleteFoodOrderByID")
 	public ResponseEntity<ResponseStructure<String>> removeFoodOrderById(@RequestParam long id)

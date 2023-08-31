@@ -41,8 +41,8 @@ public class UserDao {
 
 	public Optional<User> findByNumber(long phoneNumber)
 	{
-		Optional<User> u=	Optional.of(userRepository.findByPhoneNumber(phoneNumber));
-		return u;
+		User u=	userRepository.findByPhoneNumber(phoneNumber);
+		return Optional.ofNullable(u);
 	}
 	
 	public List<User> findAllUser()
@@ -62,4 +62,6 @@ public class UserDao {
 
 		return "User details removed";
 	}
+
+	
 }

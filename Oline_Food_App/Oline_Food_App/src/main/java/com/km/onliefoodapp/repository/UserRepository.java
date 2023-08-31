@@ -7,5 +7,5 @@ import com.km.onliefoodapp.entity.User;
 public interface UserRepository extends JpaRepository<User, Long>{
 
 	public User findByEmail(String email);
-	public User findByPhoneNumber(long phoneNumber);
+	User findByPhoneNumber(long phoneNumber);
 }

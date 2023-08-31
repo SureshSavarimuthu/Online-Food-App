@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.km.onliefoodapp.exception.CustomerIdNotPresentException;
+import com.km.onliefoodapp.exception.FoodItemIdNotFoundException;
 import com.km.onliefoodapp.exception.FoodItemIdNotPresent;
+import com.km.onliefoodapp.exception.FoodItemNotAvaliableException;
 import com.km.onliefoodapp.exception.FoodMenuIdIsNotPresent;
+import com.km.onliefoodapp.exception.FoodOrderCustomerNotFoundException;
 import com.km.onliefoodapp.exception.FoodProductIdIsNotPresent;
 import com.km.onliefoodapp.exception.InCorrectPasswordException;
 import com.km.onliefoodapp.exception.InvalidEmailIDException;
@@ -150,4 +154,82 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
 			
 	}
 
+	
+	/*
+	 * =====================================================================================================================
+	 * 										Customer EXCEPTION
+	 * ===================================================================================================================== 
+	 * 
+	*/	
+	@ExceptionHandler(CustomerIdNotPresentException.class)
+	public ResponseEntity<ResponseStructure<String>> customerNotFound(CustomerIdNotPresentException  customerIdNotPresentException)
+	{
+		ResponseStructure<String> responseStructure=new ResponseStructure<>();
+		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage("Customer detail is Incorrect.");
+		responseStructure.setData(customerIdNotPresentException.getMessage());
+
+		ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		return responseEntity;
+			
+	}	
+	
+	/*
+	 * =====================================================================================================================
+	 * 										FOOD ORDER EXCEPTION
+	 * ===================================================================================================================== 
+	 * 
+	*/	
+	
+	@ExceptionHandler(FoodOrderCustomerNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> foodMenuIdIsNotPresent(FoodOrderCustomerNotFoundException foodOrderCustomerNotFoundException )
+	{
+		ResponseStructure<String> responseStructure=new ResponseStructure<>();
+		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage("Invalid Customer details.");
+		responseStructure.setData(foodOrderCustomerNotFoundException.getMessage());
+
+		ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		return responseEntity;
+			
+	}	
+	
+	
+	/*
+	 * =====================================================================================================================
+	 * 										FOOD ITEM EXCEPTION
+	 * ===================================================================================================================== 
+	 * 
+	*/	
+	
+	@ExceptionHandler(FoodItemIdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> foodItemIdIsNotPresent(FoodItemIdNotFoundException foodItemIdNotFoundException )
+	{
+		ResponseStructure<String> responseStructure=new ResponseStructure<>();
+		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage("Invalid Item details.");
+		responseStructure.setData(foodItemIdNotFoundException.getMessage());
+
+		ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		return responseEntity;
+			
+	}	
+	
+
+	@ExceptionHandler(FoodItemNotAvaliableException.class)
+	public ResponseEntity<ResponseStructure<String>> foodItemIdIsNotPresent(FoodItemNotAvaliableException foodItemNotAvaliableException )
+	{
+		ResponseStructure<String> responseStructure=new ResponseStructure<>();
+		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage("Invalid Item details.");
+		responseStructure.setData(foodItemNotAvaliableException.getMessage());
+
+		ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		return responseEntity;
+			
+	}
 }

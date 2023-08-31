@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.km.onliefoodapp.controller.UserController;
+import com.km.onliefoodapp.dao.FoodOrderDao;
 import com.km.onliefoodapp.dao.UserDao;
+import com.km.onliefoodapp.entity.Role;
 import com.km.onliefoodapp.entity.User;
 import com.km.onliefoodapp.exception.InCorrectPasswordException;
 import com.km.onliefoodapp.exception.InvalidEmailIDException;
@@ -25,7 +27,10 @@ public class UserService {
 
 	@Autowired
 	UserDao userDao;
-/*
+
+	@Autowired
+	FoodOrderDao foodOrderDao;
+	/*
 	 * =====================================================================================================================
 	 * 										USER LOGIC
 	 * ===================================================================================================================== 
@@ -38,6 +43,11 @@ public class UserService {
 		User u=userDao.saveUser(user);
 		if(u!=null) {
 		
+			if(u.getRole().equals(Role.STAFF))
+			{
+				u.setFoodOrders(foodOrderDao.findAllFoodOrders());
+			}
+			
 		ResponseStructure<User> responseStructure=new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Data Save Sucessfull");

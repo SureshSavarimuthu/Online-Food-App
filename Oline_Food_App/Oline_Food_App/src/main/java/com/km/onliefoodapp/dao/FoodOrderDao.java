@@ -1,6 +1,7 @@
 package com.km.onliefoodapp.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,15 @@ public class FoodOrderDao {
 	{
 		return foodOrderRepository.findAll();
 	}
+	
+	public FoodOrders updateFoodOrders(FoodOrders foodOrders)
+	{
+			FoodOrders foodOrders2=foodOrderRepository.save(foodOrders)
+		return foodOrders2;
+				
+	}
+	
+	
 	
 	public String removeFoodOrderById(long id)
 	{
