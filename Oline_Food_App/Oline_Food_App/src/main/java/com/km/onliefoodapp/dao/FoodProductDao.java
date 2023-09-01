@@ -47,5 +47,9 @@ public class FoodProductDao {
 	{
 		return foodProductRepository.save(foodProduct);
 	}
-	
+
+	public List<FoodProduct> foodProductByStaff(long userId)
+	{
+		return foodProductRepository.findAll();
+	}
 }

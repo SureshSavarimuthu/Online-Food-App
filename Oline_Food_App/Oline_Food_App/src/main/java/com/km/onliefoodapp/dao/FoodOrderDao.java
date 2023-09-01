@@ -32,8 +32,8 @@ public class FoodOrderDao {
 	
 	public FoodOrders updateFoodOrders(FoodOrders foodOrders)
 	{
-			FoodOrders foodOrders2=foodOrderRepository.save(foodOrders)
-		return foodOrders2;
+			
+		return foodOrderRepository.save(foodOrders);
 				
 	}
 	

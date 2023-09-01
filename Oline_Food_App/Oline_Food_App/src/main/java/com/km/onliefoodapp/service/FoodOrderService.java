@@ -60,15 +60,19 @@ public class FoodOrderService {
 							{ 
 									foodItems.add(items);
 									double costPerItem=foodProduct.getTotalPrice();
+									double discount=foodProduct.getDiscount();
+									double finalPrice=(costPerItem)-((costPerItem/100)*discount);
+									
 									int quantityPerItem=items.getQuantity();
-									cost=cost+(costPerItem*quantityPerItem);
+									
+									cost=cost+(finalPrice*quantityPerItem);
 							}
 						}
 					}
 				}
 				
-				foodOrders.setFoodItems(foodItems);
-				foodOrders.setTotalcost(cost);
+			foodOrders.setFoodItems(foodItems);
+			foodOrders.setTotalcost(cost);
 			FoodOrders orders =	foodOrderDao.saveFoodOrder(foodOrders);
 			ResponseStructure<FoodOrders> responseStructure=new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.CREATED.value());

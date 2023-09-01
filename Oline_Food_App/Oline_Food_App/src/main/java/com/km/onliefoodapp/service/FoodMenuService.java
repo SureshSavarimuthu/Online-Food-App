@@ -1,5 +1,6 @@
 package com.km.onliefoodapp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,8 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.km.onliefoodapp.dao.FoodMenuDao;
+import com.km.onliefoodapp.dao.FoodProductDao;
 import com.km.onliefoodapp.dao.UserDao;
+import com.km.onliefoodapp.entity.FoodItems;
 import com.km.onliefoodapp.entity.FoodMenu;
+import com.km.onliefoodapp.entity.FoodOrders;
+import com.km.onliefoodapp.entity.FoodProduct;
 import com.km.onliefoodapp.entity.Role;
 import com.km.onliefoodapp.entity.User;
 import com.km.onliefoodapp.exception.FoodMenuIdIsNotPresent;
@@ -26,6 +31,9 @@ public class FoodMenuService {
 	FoodMenuDao foodMenuDao;
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	FoodProductDao foodProductDao;
 	
 	public ResponseEntity<ResponseStructure<FoodMenu>> saveFoodMenu(FoodMenu foodMenu, long userId)
 	{
@@ -130,5 +138,135 @@ public class FoodMenuService {
 		else
 			throw new FoodMenuIdIsNotPresent();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public ResponseEntity<ResponseStructure<List<FoodMenu>>>  updateFoodProduct(long staffId)
+	{
+		List<FoodMenu> updateFoodMenu = new ArrayList<FoodMenu>();
+		
+		
+		Optional<User> user=userDao.findById(staffId);
+		
+		List<FoodMenu> foodMenus=foodMenuDao.findAllFoodMenu();
+		
+		
+		if(user.isPresent() && user.get().getRole().equals(Role.STAFF))
+		{
+			for(FoodMenu menu:foodMenus)
+			{
+				FoodMenu menu2=new FoodMenu();
+				menu2.setDishes(menu.getDishes());
+				menu2.setId(menu.getId());	
+				List<FoodProduct> newFoodProduct=new ArrayList<FoodProduct>();
+				
+				
+					List<FoodOrders> orders=user.get().getFoodOrders();
+					List<FoodProduct> oldFoodProduct=foodProductDao.findAllFoodProduct();
+					
+					for(FoodOrders foodOrders:orders)
+					{
+					List<FoodItems> foodItems=	foodOrders.getFoodItems();
+					for(FoodItems foodItems2:foodItems)
+					{
+						for(FoodProduct foodProductUpdate:oldFoodProduct )
+						{
+							FoodProduct foodProduct=new FoodProduct();
+							if(foodItems2.getName().equals(foodProductUpdate.getName()))
+							{
+								int foodItemQuantity=foodItems2.getQuantity();
+								int foodProductQuantity=foodProductUpdate.getAvalibility();
+								int foodProductavalability=foodProductQuantity-foodItemQuantity;
+								if(foodProductavalability!=0) {
+								
+									foodProduct.setAvalibility(	foodProductavalability);
+									foodProduct.setDescription(foodProductUpdate.getDescription());	
+									foodProduct.setDiscount(foodProductUpdate.getDiscount());
+									foodProduct.setId(foodProductUpdate.getId());
+									foodProduct.setName(foodProductUpdate.getName());
+									foodProduct.setTotalPrice(foodProductUpdate.getTotalPrice());
+									foodProduct.setType(foodProductUpdate.getType());
+									
+									newFoodProduct.add(foodProduct);
+								}
+								else
+									foodProductDao.removeFoodProductById(foodProductUpdate.getId());
+							}
+							else	
+							{
+							foodProduct.setAvalibility(foodProductUpdate.getAvalibility());
+							foodProduct.setDescription(foodProductUpdate.getDescription());	
+							foodProduct.setDiscount(foodProductUpdate.getDiscount());
+							foodProduct.setId(foodProductUpdate.getId());
+							foodProduct.setName(foodProductUpdate.getName());
+							foodProduct.setTotalPrice(foodProductUpdate.getTotalPrice());
+							foodProduct.setType(foodProductUpdate.getType());
+							newFoodProduct.add(foodProduct);
+								
+							}
+						}
+						menu2.setFoodProducts(newFoodProduct);
+					}			
+				}
+						
+					updateFoodMenu.add(menu2);
+			}
+			
+			ResponseStructure<List<FoodMenu>> responseStructure=new ResponseStructure<>();
+			responseStructure.setStatus(HttpStatus.OK.value());
+			responseStructure.setMessage("New Food Menu Updated ");
+			responseStructure.setData(updateFoodMenu);
+			
+			ResponseEntity<ResponseStructure<List<FoodMenu>>> entity=new ResponseEntity<ResponseStructure<List<FoodMenu>>>(responseStructure, HttpStatus.OK);
+			
+		
+			return entity;
+		}
+		else 
+			throw new UserDataNotFoundInTheDatabase();
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

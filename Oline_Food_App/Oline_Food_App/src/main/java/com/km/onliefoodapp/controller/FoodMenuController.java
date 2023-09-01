@@ -49,5 +49,11 @@ public class FoodMenuController {
 	{
 		return foodMenuService.updateFoodMenu(foodMenuId, foodMenu);
 	}
+
+	@PutMapping("updateFoodMenuByStaff")
+	public ResponseEntity<ResponseStructure<List<FoodMenu>>> updateFoodMenuByStaff(@RequestParam long staffId)
+	{
+		return foodMenuService.updateFoodProduct(staffId);
+	}
 	
 }
