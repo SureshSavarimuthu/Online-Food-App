@@ -28,9 +28,9 @@ public class FoodOrderController {
 	}
 	
 	@GetMapping("findFoodOrderByID")
-	public ResponseEntity<ResponseStructure<FoodOrders>> findFoodOrderByID(@RequestParam long id)
+	public ResponseEntity<ResponseStructure<FoodOrders>> findFoodOrderByID(@RequestParam long foodOrderId)
 	{
-		return foodOrderService.findFoodOrderByID(id);
+		return foodOrderService.findFoodOrderByID(foodOrderId);
 	}
 	
 	@GetMapping("findAllFoodOrder")
@@ -43,8 +43,8 @@ public class FoodOrderController {
 	
 	
 	@DeleteMapping("deleteFoodOrderByID")
-	public ResponseEntity<ResponseStructure<String>> removeFoodOrderById(@RequestParam long id)
+	public ResponseEntity<ResponseStructure<String>> removeFoodOrderById(@RequestParam long foodOrderId)
 	{
-		return foodOrderService.removeFoodOrderById(id);
+		return foodOrderService.removeFoodOrderById(foodOrderId);
 	}
 }

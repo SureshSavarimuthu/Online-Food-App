@@ -1,6 +1,7 @@
 package com.km.onliefoodapp.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,9 +22,10 @@ public class FoodProductDao {
 		return foodProductRepository.save(foodProduct);
 	}
 	
-	public FoodProduct findFoodProductById(long id)
+	public Optional<FoodProduct> findFoodProductById(long id)
 	{
-		return foodProductRepository.findById(id).get();
+		Optional<FoodProduct> opt	=foodProductRepository.findById(id);
+		return opt;
 	}
 	
 	public List<FoodProduct> findAllFoodProduct()
@@ -40,6 +42,7 @@ public class FoodProductDao {
 	public List<FoodProduct> findByType(Type type)
 	{
 		List<FoodProduct> foodProducts=	(List<FoodProduct>) foodProductRepository.findAllByType(type);
+	
 		return foodProducts;
 	}
 	

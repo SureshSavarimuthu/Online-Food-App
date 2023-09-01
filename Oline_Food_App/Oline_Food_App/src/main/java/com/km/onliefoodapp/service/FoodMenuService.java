@@ -139,54 +139,62 @@ public class FoodMenuService {
 			throw new FoodMenuIdIsNotPresent();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	public ResponseEntity<ResponseStructure<List<FoodMenu>>>  updateFoodProduct(long staffId)
 	{
-		List<FoodMenu> updateFoodMenu = new ArrayList<FoodMenu>();
 		
 		
 		Optional<User> user=userDao.findById(staffId);
 		
 		List<FoodMenu> foodMenus=foodMenuDao.findAllFoodMenu();
+
+		List<FoodOrders> orders=user.get().getFoodOrders();
+						
+		
+		List<FoodMenu> updateFoodMenu = new ArrayList<FoodMenu>();
 		
 		
 		if(user.isPresent() && user.get().getRole().equals(Role.STAFF))
 		{
 			for(FoodMenu menu:foodMenus)
 			{
-				FoodMenu menu2=new FoodMenu();
-				menu2.setDishes(menu.getDishes());
-				menu2.setId(menu.getId());	
+				List<FoodProduct> oldFoodProduct=menu.getFoodProducts();
 				List<FoodProduct> newFoodProduct=new ArrayList<FoodProduct>();
+				FoodMenu menu2=new FoodMenu();
 				
+				menu2.setDishes(menu.getDishes());
+				menu2.setId(menu.getId());
+				menu2.setFoodProducts(newFoodProduct);
 				
-					List<FoodOrders> orders=user.get().getFoodOrders();
-					List<FoodProduct> oldFoodProduct=foodProductDao.findAllFoodProduct();
-					
+				for(FoodProduct foodProductUpdate:oldFoodProduct )
+				{	
+						FoodProduct foodProduct=new FoodProduct();
+						foodProduct.setAvalibility(foodProductUpdate.getAvalibility());
+						foodProduct.setDescription(foodProductUpdate.getDescription());	
+						foodProduct.setDiscount(foodProductUpdate.getDiscount());
+						foodProduct.setId(foodProductUpdate.getId());
+						foodProduct.setName(foodProductUpdate.getName());
+						foodProduct.setTotalPrice(foodProductUpdate.getTotalPrice());
+						foodProduct.setType(foodProductUpdate.getType());
+						
+						
+						newFoodProduct.add(foodProduct);
+												
+						
 					for(FoodOrders foodOrders:orders)
 					{
-					List<FoodItems> foodItems=	foodOrders.getFoodItems();
-					for(FoodItems foodItems2:foodItems)
-					{
-						for(FoodProduct foodProductUpdate:oldFoodProduct )
+							List<FoodItems> foodItems=	foodOrders.getFoodItems();
+						for(FoodItems foodItems2:foodItems)
 						{
-							FoodProduct foodProduct=new FoodProduct();
+						
 							if(foodItems2.getName().equals(foodProductUpdate.getName()))
 							{
 								int foodItemQuantity=foodItems2.getQuantity();
 								int foodProductQuantity=foodProductUpdate.getAvalibility();
 								int foodProductavalability=foodProductQuantity-foodItemQuantity;
-								if(foodProductavalability!=0) {
-								
+								if(foodProductavalability>=1) 
+								{
 									foodProduct.setAvalibility(	foodProductavalability);
 									foodProduct.setDescription(foodProductUpdate.getDescription());	
 									foodProduct.setDiscount(foodProductUpdate.getDiscount());
@@ -199,25 +207,12 @@ public class FoodMenuService {
 								}
 								else
 									foodProductDao.removeFoodProductById(foodProductUpdate.getId());
-							}
-							else	
-							{
-							foodProduct.setAvalibility(foodProductUpdate.getAvalibility());
-							foodProduct.setDescription(foodProductUpdate.getDescription());	
-							foodProduct.setDiscount(foodProductUpdate.getDiscount());
-							foodProduct.setId(foodProductUpdate.getId());
-							foodProduct.setName(foodProductUpdate.getName());
-							foodProduct.setTotalPrice(foodProductUpdate.getTotalPrice());
-							foodProduct.setType(foodProductUpdate.getType());
-							newFoodProduct.add(foodProduct);
-								
-							}
+							}			
 						}
-						menu2.setFoodProducts(newFoodProduct);
-					}			
+					}		
 				}
-						
-					updateFoodMenu.add(menu2);
+				updateFoodMenu.add(menu2);
+				
 			}
 			
 			ResponseStructure<List<FoodMenu>> responseStructure=new ResponseStructure<>();
@@ -226,47 +221,12 @@ public class FoodMenuService {
 			responseStructure.setData(updateFoodMenu);
 			
 			ResponseEntity<ResponseStructure<List<FoodMenu>>> entity=new ResponseEntity<ResponseStructure<List<FoodMenu>>>(responseStructure, HttpStatus.OK);
-			
-		
+
 			return entity;
 		}
 		else 
 			throw new UserDataNotFoundInTheDatabase();
-	}	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
+
 
 }

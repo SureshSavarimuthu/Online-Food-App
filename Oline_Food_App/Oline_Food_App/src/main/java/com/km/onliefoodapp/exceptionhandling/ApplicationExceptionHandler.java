@@ -15,6 +15,7 @@ import com.km.onliefoodapp.exception.FoodOrderCustomerNotFoundException;
 import com.km.onliefoodapp.exception.FoodProductIdIsNotPresent;
 import com.km.onliefoodapp.exception.InCorrectPasswordException;
 import com.km.onliefoodapp.exception.InvalidEmailIDException;
+import com.km.onliefoodapp.exception.NoSuchAFoodOrder;
 import com.km.onliefoodapp.exception.NoSuchDataFoundException;
 import com.km.onliefoodapp.exception.UserDataNotFoundInTheDatabase;
 import com.km.onliefoodapp.exception.UserRoleDoesNotMatch;
@@ -189,6 +190,20 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
 		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
 		responseStructure.setMessage("Invalid Customer details.");
 		responseStructure.setData(foodOrderCustomerNotFoundException.getMessage());
+
+		ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		return responseEntity;
+			
+	}	
+	
+	@ExceptionHandler(NoSuchAFoodOrder.class)
+	public ResponseEntity<ResponseStructure<String>> foodMenuIdIsNotPresent(NoSuchAFoodOrder noSuchAFoodOrder )
+	{
+		ResponseStructure<String> responseStructure=new ResponseStructure<>();
+		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage("Food Order Not found");
+		responseStructure.setData(noSuchAFoodOrder.getMessage());
 
 		ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
 		

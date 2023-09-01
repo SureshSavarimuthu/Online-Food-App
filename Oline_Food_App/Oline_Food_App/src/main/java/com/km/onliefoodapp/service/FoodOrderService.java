@@ -1,6 +1,6 @@
 package com.km.onliefoodapp.service;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ import com.km.onliefoodapp.entity.FoodItems;
 import com.km.onliefoodapp.entity.FoodOrders;
 import com.km.onliefoodapp.entity.FoodProduct;
 import com.km.onliefoodapp.exception.CustomerIdNotPresentException;
-import com.km.onliefoodapp.exception.FoodOrderCustomerNotFoundException;
+import com.km.onliefoodapp.exception.NoSuchAFoodOrder;
 import com.km.onliefoodapp.exception.NoSuchDataFoundException;
 import com.km.onliefoodapp.util.ResponseStructure;
 
@@ -89,19 +89,19 @@ public class FoodOrderService {
 	}
 	
 	public ResponseEntity<ResponseStructure<FoodOrders>> findFoodOrderByID(long id) {
-		FoodOrders foodOrders=foodOrderDao.findFoodOrderByID(id);
-		if(foodOrders!=null)
+		Optional<FoodOrders> foodOrders=foodOrderDao.findFoodOrderByID(id);
+		if(foodOrders.isPresent())
 		{
 			ResponseStructure<FoodOrders> responseStructure=new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.OK.value());
-			responseStructure.setMessage("Data Save Sucessfull");
-			responseStructure.setData(foodOrders);
+			responseStructure.setMessage("Food Order founded sucessfully.");
+			responseStructure.setData(foodOrders.get());
 			
 			ResponseEntity<ResponseStructure<FoodOrders>> responseEntity=new ResponseEntity<ResponseStructure<FoodOrders>>(responseStructure, HttpStatus.OK);
 			return responseEntity;
 		}
 		else
-			throw new NoSuchDataFoundException();
+			throw new NoSuchAFoodOrder();
 	}
 	
 	public ResponseEntity<ResponseStructure<List<FoodOrders>>> findAllFoodOrders()
@@ -125,19 +125,20 @@ public class FoodOrderService {
 	
 	public ResponseEntity<ResponseStructure<String>> removeFoodOrderById(long id)
 	{
-		String str=foodOrderDao.removeFoodOrderById(id);
-		if(str!=null)
+		Optional<FoodOrders> foodOrders=foodOrderDao.findFoodOrderByID(id);
+		if(foodOrders.isPresent())
 		{
+			String str=foodOrderDao.removeFoodOrderById(id);	
 			ResponseStructure<String> responseStructure=new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.NO_CONTENT.value());
-			responseStructure.setMessage("Data Save Sucessfull");		
+			responseStructure.setMessage("Food Order deliverd sucessfully.");		
 			responseStructure.setData(str);
 			
 			ResponseEntity<ResponseStructure<String>> responseEntity=new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
 			return responseEntity;
 		}
 		else 
-			throw new NoSuchDataFoundException();
+			throw new NoSuchAFoodOrder();
 	}
 	
 	

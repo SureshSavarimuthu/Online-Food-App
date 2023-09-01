@@ -20,9 +20,10 @@ public class FoodOrderDao {
 		return foodOrderRepository.save(foodOrders);
 	}
 	
-	public FoodOrders findFoodOrderByID(long id)
+	public Optional<FoodOrders> findFoodOrderByID(long id)
 	{
-		return foodOrderRepository.findById(id).get();
+	Optional<FoodOrders> foodOrders	= foodOrderRepository.findById(id);
+	return foodOrders;
 	}
 	
 	public List<FoodOrders> findAllFoodOrders()
