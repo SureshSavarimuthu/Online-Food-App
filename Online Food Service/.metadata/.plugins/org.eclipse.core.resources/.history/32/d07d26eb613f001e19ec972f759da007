@@ -1,0 +1,47 @@
+package com.km_foundation.yemak_servis.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.stereotype.Service;
+
+import com.km_foundation.yemak_servis.dao.Dao;
+import com.km_foundation.yemak_servis.dto.Branch;
+import com.km_foundation.yemak_servis.dto.FoodOrder;
+import com.km_foundation.yemak_servis.dto.User;
+
+@Service
+public class FService {
+
+	@Autowired
+	Dao dao;
+
+	public User save(User user)
+	{
+		return dao.save(user);
+	}
+//	public Branch saveBranch(int id)
+//	{
+//		User u= dao.getByEmail(id);
+//		List<Branch> l=u.getBranch();
+//		l.add(null);
+//		Branch b=l.get(id);
+//		
+//		return  b;
+//		
+//	}
+	
+	public User getByEmail(int id)
+	{
+		return dao.getByEmail(id);
+	}
+
+	public Branch updateBranch(Branch branch,int id);
+	{
+		User user=dao.updateBranch(id);
+		
+		
+		
+//		return branch;
+	}
+}

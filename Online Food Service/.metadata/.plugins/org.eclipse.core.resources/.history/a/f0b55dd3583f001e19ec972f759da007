@@ -1,0 +1,11 @@
+package com.km_foundation.yemak_servis.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.km_foundation.yemak_servis.dto.FoodOrder;
+import com.km_foundation.yemak_servis.dto.User;
+
+public interface FoodRepository extends JpaRepository<FoodOrder, Integer>{
+
+}
+

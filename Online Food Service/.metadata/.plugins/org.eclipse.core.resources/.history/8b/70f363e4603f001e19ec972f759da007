@@ -1,0 +1,27 @@
+package com.km_foundation.yemak_servis.service;
+
+import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.stereotype.Service;
+
+import com.km_foundation.yemak_servis.dao.Dao;
+import com.km_foundation.yemak_servis.dto.Branch;
+import com.km_foundation.yemak_servis.dto.FoodOrder;
+import com.km_foundation.yemak_servis.dto.User;
+
+@Service
+public class FService {
+
+	@Autowired
+	Dao dao;
+
+	public User save(User user)
+	{
+		return dao.save(user);
+	}
+	public Branch saveBranch(FoodOrder foodOrder)
+	{
+		return null;
+		
+	}
+	
+}

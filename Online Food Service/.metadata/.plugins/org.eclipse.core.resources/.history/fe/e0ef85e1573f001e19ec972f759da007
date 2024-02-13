@@ -1,0 +1,27 @@
+package com.km_foundation.yemak_servis.dto;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Data;
+
+@Entity
+@Data
+public class FoodOrder {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private String	id;
+private boolean	status;
+private double	totalPrice;
+private String	orderCreatedTime;
+private String	orderDeliveryTime;
+private String	customerName;
+private long	ContactNumber;
+
+@ManyToOne
+@JoinColumn
+private	User user; // --->(“Staff”)
+}
