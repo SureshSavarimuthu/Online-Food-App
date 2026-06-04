@@ -35,3 +35,4 @@ build/
 .metadata/
 src/bin/
 /.metadata/
+/src/bin/
