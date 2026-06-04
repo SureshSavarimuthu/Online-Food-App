@@ -51,6 +51,18 @@ public class FoodProductDao {
 		return foodProductRepository.save(foodProduct);
 	}
 
+	public FoodProduct findByName(String name)
+	{
+		return foodProductRepository.findByName(name);
+	}
+
+	public List<FoodProduct> findLowStockProducts(int threshold)
+	{
+		return foodProductRepository.findAll().stream()
+				.filter(p -> p.getAvalibility() < threshold)
+				.collect(java.util.stream.Collectors.toList());
+	}
+
 	public List<FoodProduct> foodProductByStaff(long userId)
 	{
 		return foodProductRepository.findAll();

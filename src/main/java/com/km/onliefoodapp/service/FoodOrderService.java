@@ -39,6 +39,9 @@ public class FoodOrderService {
 
 	@Autowired
 	RazorpayService razorpayService;
+
+	@Autowired
+	NotificationService notificationService;
 	
 	public ResponseEntity<ResponseStructure<FoodOrders>> saveFoodOrder(FoodOrders foodOrders,long customerId)
 	{
@@ -181,6 +184,8 @@ public class FoodOrderService {
 				order.setRazorpaySignature(razorpaySignature);
 				order.setPaymentStatus("PAID");
 				foodOrderDao.saveFoodOrder(order);
+				
+				notificationService.sendPaymentSuccessNotification(order);
 
 				responseStructure.setStatus(HttpStatus.OK.value());
 				responseStructure.setMessage("Payment verified and order status updated to PAID");
@@ -195,6 +200,25 @@ public class FoodOrderService {
 				responseStructure.setData(order);
 				return new ResponseEntity<>(responseStructure, HttpStatus.BAD_REQUEST);
 			}
+		} else {
+			throw new NoSuchAFoodOrder();
+		}
+	}
+
+	public ResponseEntity<ResponseStructure<FoodOrders>> updateOrderStatus(long orderId, com.km.onliefoodapp.entity.Status status) {
+		Optional<FoodOrders> optional = foodOrderDao.findFoodOrderByID(orderId);
+		if (optional.isPresent()) {
+			FoodOrders order = optional.get();
+			order.setStatus(status);
+			foodOrderDao.saveFoodOrder(order);
+			
+			notificationService.sendOrderStatusNotification(order);
+
+			ResponseStructure<FoodOrders> responseStructure = new ResponseStructure<>();
+			responseStructure.setStatus(HttpStatus.OK.value());
+			responseStructure.setMessage("Order status updated successfully");
+			responseStructure.setData(order);
+			return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 		} else {
 			throw new NoSuchAFoodOrder();
 		}

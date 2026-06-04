@@ -45,5 +45,20 @@ public class FoodOrderDao {
 		foodOrderRepository.deleteById(id);
 		return "Order removed Sucessfully";
 	}
-	
+
+	public Double getTotalRevenue()
+	{
+		Double revenue = foodOrderRepository.getTotalRevenue();
+		return revenue != null ? revenue : 0.0;
+	}
+
+	public Long countByStatus(com.km.onliefoodapp.entity.Status status)
+	{
+		return foodOrderRepository.countByStatus(status);
+	}
+
+	public java.util.List<FoodOrders> findByStatus(com.km.onliefoodapp.entity.Status status)
+	{
+		return foodOrderRepository.findByStatus(status);
+	}
 }

@@ -7,11 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.km.onliefoodapp.entity.FoodOrders;
+import com.km.onliefoodapp.entity.Status;
 import com.km.onliefoodapp.service.FoodOrderService;
 import com.km.onliefoodapp.util.ResponseStructure;
 
@@ -46,6 +48,14 @@ public class FoodOrderController {
 	public ResponseEntity<ResponseStructure<String>> removeFoodOrderById(@RequestParam long foodOrderId)
 	{
 		return foodOrderService.removeFoodOrderById(foodOrderId);
+	}
+
+	@PutMapping("updateOrderStatus")
+	public ResponseEntity<ResponseStructure<FoodOrders>> updateOrderStatus(
+			@RequestParam long orderId,
+			@RequestParam Status status)
+	{
+		return foodOrderService.updateOrderStatus(orderId, status);
 	}
 
 	@PostMapping("createRazorpayOrder")
